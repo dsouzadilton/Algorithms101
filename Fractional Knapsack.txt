@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include<conio.h>
+int main(){
+    
+    int n, u, M;
+    int p[10], w[10];
+    float x[10];
+    float tp=0.0;
+    
+    printf("\nEnter the number of elements: ");
+    scanf("%d",&n);
+    printf("\nEnter the weight: \n");
+    for(int i=0;i<n;i++){
+        scanf("%d",&w[i]);
+        x[i] = 0;
+    }
+    printf("\nEnter the profit: \n");
+    for(int i=0;i<n;i++)
+        scanf("%d",&p[i]);
+    printf("\nEnter the max capacity: ");
+    scanf("%d",&M);
+    for(int j = 1; j < n; j++){
+        for(int i = 0; i < n-1; i++){
+            if (p[i]/w[i] < p[i+1]/w[i+1]){
+                int temp = w[i];
+                w[i] = w[i+1];
+                w[i+1]= temp;
+                int temp1 = p[i];
+                p[i] = p[i+1];
+                p[i+1]= temp1;
+            }
+        }
+    }
+    
+    printf("Weights: ");
+    for(int i=0;i<n;i++)
+        printf("%d\t\t",w[i]);
+    
+    printf("\nProfits: ");
+    for(int i=0;i<n;i++)
+        printf("%d\t\t",p[i]);
+    
+    
+    int k = 0;
+    u = M;
+    while(u>0 && k < n){
+        
+        if(w[k] <= u){
+            x[k] = 1;
+            u = u-w[k];
+            tp = tp + x[k]*p[k];
+            k++;
+        }
+        else{
+            x[k] = (float)u/w[k];
+            tp = tp + x[k]*p[k];
+            u = 0;
+        }
+    }
+    printf("\nVector : ");
+    for(int i=0;i<n;i++)
+        printf("%f\t",x[i]);
+    printf("\nTotal Profit: %f",tp);
+    return 0;
+}

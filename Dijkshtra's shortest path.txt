@@ -1,0 +1,67 @@
+#include<stdio.h>
+int main() {
+    int v, e, s, d, c, source; 
+    printf("Enter number of vertices: ");
+    scanf("%d", &v);
+    int adj[v][v], dist[v], pred[v], vis[v];
+    for (int i = 0; i < v; i++) {
+        for (int j = 0; j < v; j++) {
+            adj[i][j] = 999;
+            if(i == j)
+                adj[i][j] == 0;
+        }
+    }
+    printf("\nEnter number of edges: ");
+    scanf("%d", &e);
+    for (int i = 0; i < e; i++) {
+        printf("\nEnter source vertex, destination vertex and cost of the edge: ");
+        scanf("%d %d %d", &s, &d, &c);
+        adj[s][d] = c;
+    }
+    printf("\nEnter the source vertex: ");
+    scanf("%d", &source);
+    
+    for (int i = 0; i < v; i++) {
+        dist[i] = adj[source][i];
+        pred[i] = source;
+        vis[i] = 0;
+    }
+    pred[source] = 999;
+    vis[source] = 1;
+    for (int i = 0; i < v; i++) {
+        int min_val = 999;
+        int min = 0;
+        for (int i = 0; i < v; i++) {
+            if (min_val > dist[i] && vis[i] == 0) {
+                min = dist[i];
+            }
+        }
+        vis[min] = 1;
+        for(int i = 0; i < v; i++){
+            if(adj[min][i] != 0 && adj[min][i] != 999 && vis[i] == 0){
+                int val = dist[min] + adj[min][i];
+                dist[i] = dist[i]<val?dist[i]:val;
+                if(dist[i] == val){
+                    pred[i] = min;
+                }
+            }
+        }
+    }
+    printf("\nDistance Array:\n");
+    for(int i=0;i<v;i++){
+        printf("%d\t",i);
+    }
+    printf("\n");
+    for(int i=0;i<v;i++){
+        printf("%d\t",dist[i]);
+    }
+    printf("\n");
+    printf("Predecessor Array:\n");
+    for(int i=0;i<v;i++){
+        printf("%d\t",i);
+    }
+    printf("\n");
+    for(int i=0;i<v;i++){
+        printf("%d\t",pred[i]);
+    }
+}

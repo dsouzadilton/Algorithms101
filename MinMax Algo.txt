@@ -1,0 +1,57 @@
+#include<stdio.h>
+
+typedef struct pair{
+ int min,max;
+}pair;
+
+pair getMinMax(int arr[],int low,int high){
+    pair minmax,minmaxLeft,minmaxRight;
+    int mid;
+    
+    // Only One Element
+    if(low==high){
+        minmax.max=arr[low];
+        minmax.min=arr[low];
+        return minmax;
+    }
+    
+    // Only Two Elements
+    if(low==high-1){
+        if(arr[low]>arr[high]){
+            minmax.max=arr[low];
+            minmax.min=arr[high];
+        }
+        else{
+            minmax.max=arr[high];
+            minmax.min=arr[low];
+        }
+        return minmax;
+    }
+    
+    // More Than Two Elements 
+    mid=(low+high)/2; 
+    minmaxLeft=getMinMax(arr,low,mid);
+    minmaxRight=getMinMax(arr,mid+1,high);
+    if(minmaxLeft.min<minmaxRight.min)
+        minmax.min=minmaxLeft.min;
+    else
+        minmax.min=minmaxRight.min;
+    if(minmaxLeft.max>minmaxRight.max)
+        minmax.max=minmaxLeft.max;
+    else
+        minmax.max=minmaxRight.max;
+    return minmax;
+}
+
+int main(){
+    int arr[10], n, i;
+    printf("\nEnter the number of elements: ");
+    scanf("%d",&n);
+    printf("\nEnter the elements of array: \n");
+    for(i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+    pair minmax = getMinMax(arr, 0, n-1);
+    printf("\nMinimum element: %d",minmax.min);
+    printf("\nMaximum element: %d",minmax.max);
+    return 0;
+}
